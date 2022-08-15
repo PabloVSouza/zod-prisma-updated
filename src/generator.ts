@@ -138,7 +138,7 @@ export const generateSchemaForModel = (
 		leadingTrivia: (writer) => writer.blankLineIfLastNot(),
 		declarations: [
 			{
-				name: modelName(model.name),
+				name: 'validate',
 				initializer(writer) {
 					writer
 						.write('z.object(')
@@ -157,6 +157,13 @@ export const generateSchemaForModel = (
 				},
 			},
 		],
+	})
+
+	sourceFile.addTypeAlias({
+		leadingTrivia: (writer) => writer.blankLineIfLastNot(),
+		isExported: true,
+		name: modelName(model.name),
+		type: 'z.infer<typeof validate>',
 	})
 }
 
